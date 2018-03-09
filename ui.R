@@ -8,26 +8,51 @@
 #
 
 library(shiny)
+library(ggplot2)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
+# Define UI for application that draws a scatterplot
+ui <- fluidPage(
   
-  # Application title
-  titlePanel("Old Faithful Geyser Data"),
-  
-  # Sidebar with a slider input for number of bins 
+  # Sidebar layout with a input and output definitions
   sidebarLayout(
+    
+    # Inputs
     sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
+      
+      # Select variable for y-axis
+      selectInput(inputId = "y", 
+                  label = "Y-axis:",
+                  choices = c("IMDB rating" = "imdb_rating", 
+                              "IMDB number of votes" = "imdb_num_votes", 
+                              "Critics score" = "critics_score", 
+                              "Audience score" = "audience_score", 
+                              "Runtime" = "runtime"), 
+                  selected = "audience_score"),
+      
+      # Select variable for x-axis
+      selectInput(inputId = "x", 
+                  label = "X-axis:",
+                  choices = c("IMDB rating" = "imdb_rating", 
+                              "IMDB number of votes" = "imdb_num_votes", 
+                              "Critics score" = "critics_score", 
+                              "Audience score" = "audience_score", 
+                              "Runtime" = "runtime"), 
+                  selected = "critics_score"),
+      
+      # Select variable for color
+      selectInput(inputId = "z", 
+                  label = "Z-axis:",
+                  choices = c("Title type" = "title_type",
+                              "Genre" = "genre", 
+                              "MPAA rating" = "mpaa_rating", 
+                              "Critics rating" = "critics_rating", 
+                              "Audience rating" = "runtime"), 
+                  selected = "mpaa_rating"),
     ),
     
-    # Show a plot of the generated distribution
+    # Output
     mainPanel(
-       plotOutput("distPlot")
+      plotOutput(outputId = "scatterplot")
     )
   )
-))
+)
